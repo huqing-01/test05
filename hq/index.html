@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script type="text/javascript" src="js/axios.js"></script>
+    <script type="text/javascript" src="js/jquery-2.1.0.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="app" style="margin: 20px auto;background: blue; text-align: center">
+        <h1>中英文翻译</h1> 
+        <input name="Word" id="Word" />
+        <button onClick="btn();">翻译</button>
+        <br/><br/>
+        <textarea id="area" style="width:200px;height: 200px;border: 1px solid red"></textarea>
+    </div>
+</body>
+  
+   <script type="text/javascript">
+        
+        function btn() {
+            var Word= document.getElementById("Word").value;
+            //alert(Word)
+            //debugger
+                axios.get('http://localhost:8082/say',
+                         { 
+                params: {
+                    word: Word,
+                    }
+            }
+            ).then((res) => {
+                console.log(res);
+               // debugger;
+                var d = res.data;
+                console.log(d);
+                $("#area").val(d[1]);
+            }).catch((err) => {
+                console.log(err);
+            })
+        }
+    </script>
+
+</html>

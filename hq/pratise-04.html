@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script type="text/javascript" src="js/axios.js"></script>
+    <script type="text/javascript" src="js/jquery-2.1.0.js"></script>
+    <title>查询员工信息</title>
+    <style type="text/css">
+        body {
+            text-align: center;
+          
+        }
+
+        #show {
+            margin: 0 auto;
+            width: 300px;
+            height: 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <h1>员工信息查询</h1>
+        <span>请输入你的工号：</span>
+        <input name="usercode" id="usercode" placeholder="请输入工号" />
+        <button onClick="btn();" style="cursor:pointer;">查询</button>
+        <!-- <textarea id="show" style="width:200px;height:200px;"></textarea> -->
+    </div>
+    <br />
+    <div id="show" style="text-align:center;">
+        <div>
+</body>
+<script type="text/javascript">
+    function btn() {
+        var usercode = document.getElementById("usercode").value;//获取我前端输入的值
+        //let params={"usercode":usercode}
+        // alert(usercode)
+        console.log(usercode);
+        //debugger
+        axios.post('http://192.168.51.69:8080/person',
+
+            {
+                "usercode": usercode,//把我前端输入获取的值当做参数跟请求一起发送
+            }
+
+        ).then((res) => {
+            console.log(res);
+            //debugger;
+            var d = res.data;//得到后台响应后的数据
+            console.log(d);
+            if (d.userCode == undefined) {
+                alert("无此员工信息！");
+                $("#show").html("");
+            } else {// $("#show").val("工号："+d.usercode+"\n"+"姓名："+d.username+"\n"+"所在部门："+d.department);//这是显示翻译后的数据，显示在文本域中
+                $("#show").html("<table style='width:300px;border:1px solid black;'>" +
+                    "<tr'>" +
+                    "<th style='border:1px solid black;'>工号</th>" +
+                    "<th style='border:1px solid black;'>姓名</th>" +
+                    "<th style='border:1px solid black;'>所在部门</th>" +
+                    "</tr>" +
+                    "<tr>" +
+                    "<td style='border:1px solid black;'>" + d.userCode + "</td>" +
+                    "<td style='border:1px solid black;'>" + d.userName + "</td>" +
+                    "<td style='border:1px solid black;'>" + d.department + "</td>" +
+                    "</tr>"
+                    + "</table>");
+            }
+        }).catch((err) => {
+            console.log(err);
+        })
+    }
+</script>
+
+</html>
